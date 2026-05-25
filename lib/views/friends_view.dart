@@ -25,8 +25,8 @@ class FriendsView extends GetView<FriendsController> {
         actions: [
           IconButton(
             icon: const Icon(Icons.person_add_alt_1),
-            onPressed: (){
-                   Get.toNamed(AppRoutes.friendRequests);
+            onPressed: () {
+              Get.toNamed(AppRoutes.friendRequests);
             },
           ),
         ],
@@ -44,9 +44,9 @@ class FriendsView extends GetView<FriendsController> {
                 suffixIcon: Obx(() {
                   return controller.searchQuery.isNotEmpty
                       ? IconButton(
-                    icon: const Icon(Icons.clear),
-                    onPressed: controller.clearSearch,
-                  )
+                          icon: const Icon(Icons.clear),
+                          onPressed: controller.clearSearch,
+                        )
                       : const SizedBox();
                 }),
                 filled: true,
@@ -71,7 +71,7 @@ class FriendsView extends GetView<FriendsController> {
               }
 
               return RefreshIndicator(
-                onRefresh: controller.refreshFriend,
+                onRefresh: controller.refreshFriends,
                 child: ListView.separated(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   itemCount: controller.filteredFriends.length,
@@ -112,9 +112,7 @@ class FriendsView extends GetView<FriendsController> {
       ),
       onTap: () => controller.startChat(friend),
       trailing: PopupMenuButton<String>(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         onSelected: (value) {
           if (value == 'remove') {
             controller.removeFriend(friend);
@@ -123,14 +121,8 @@ class FriendsView extends GetView<FriendsController> {
           }
         },
         itemBuilder: (context) => const [
-          PopupMenuItem(
-            value: 'remove',
-            child: Text("Remove Friend"),
-          ),
-          PopupMenuItem(
-            value: 'block',
-            child: Text("Block User"),
-          ),
+          PopupMenuItem(value: 'remove', child: Text("Remove Friend")),
+          PopupMenuItem(value: 'block', child: Text("Block User")),
         ],
       ),
     );
@@ -153,10 +145,7 @@ class FriendsView extends GetView<FriendsController> {
           const SizedBox(height: 16),
           const Text(
             "No friends yet",
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.w600,
-            ),
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
           ),
           const SizedBox(height: 8),
           Text(
@@ -173,10 +162,7 @@ class FriendsView extends GetView<FriendsController> {
             ),
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.deepPurple,
-              padding: const EdgeInsets.symmetric(
-                horizontal: 20,
-                vertical: 12,
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
               ),

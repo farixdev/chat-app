@@ -37,10 +37,7 @@ class HomeController extends GetxController {
   void _loadChats() {
     final currentUserId = _authController.user?.uid;
     if (currentUserId == null) return;
-
-    _allChats.bindStream(
-      _firestoreService.getUserChatsStream(currentUserId),
-    );
+    _allChats.bindStream(_firestoreService.getUserChatsStream(currentUserId));
   }
 
   void _loadUsers() {
@@ -58,7 +55,6 @@ class HomeController extends GetxController {
   void _loadNotifications() {
     final currentUserId = _authController.user?.uid;
     if (currentUserId == null) return;
-
     _notifications.bindStream(
       _firestoreService.getNotificationsStream(currentUserId),
     );
@@ -67,23 +63,19 @@ class HomeController extends GetxController {
   UserModel? getOtherUser(ChatModel chat) {
     final currentUserId = _authController.user?.uid;
     if (currentUserId == null) return null;
-
     final otherId = chat.getOtherParticipant(currentUserId);
     return _users[otherId];
   }
 
   String formatLastMessageTime(DateTime? time) {
     if (time == null) return '';
-
     final now = DateTime.now();
-    final difference = now.difference(time);
-
-    if (difference.inSeconds < 60) return 'Just now';
-    if (difference.inMinutes < 60) return '${difference.inMinutes}m ago';
-    if (difference.inHours < 24) return '${difference.inHours}h ago';
-    if (difference.inDays == 1) return 'Yesterday';
-    if (difference.inDays < 7) return '${difference.inDays}d ago';
-
+    final diff = now.difference(time);
+    if (diff.inSeconds < 60) return 'Just now';
+    if (diff.inMinutes < 60) return '${diff.inMinutes}m ago';
+    if (diff.inHours < 24) return '${diff.inHours}h ago';
+    if (diff.inDays == 1) return 'Yesterday';
+    if (diff.inDays < 7) return '${diff.inDays}d ago';
     return '${time.day}/${time.month}/${time.year}';
   }
 
@@ -92,13 +84,10 @@ class HomeController extends GetxController {
 
     if (_searchQuery.value.isNotEmpty) {
       final q = _searchQuery.value.toLowerCase();
-
       list = list.where((chat) {
         final user = getOtherUser(chat);
-
         final name = user?.displayName.toLowerCase() ?? '';
         final lastMessage = chat.lastMessage?.toLowerCase() ?? '';
-
         return name.contains(q) || lastMessage.contains(q);
       }).toList();
     }
@@ -106,13 +95,10 @@ class HomeController extends GetxController {
     switch (_activeFilter.value) {
       case 'unread':
         return _applyUnreadFilter(list);
-
       case 'recent':
         return _applyRecentFilter(list);
-
       case 'active':
         return _applyActiveFilter(list);
-
       default:
         return list;
     }
@@ -121,10 +107,7 @@ class HomeController extends GetxController {
   List<ChatModel> _applyUnreadFilter(List<ChatModel> list) {
     final currentUserId = _authController.user?.uid;
     if (currentUserId == null) return list;
-
-    return list
-        .where((chat) => chat.getUnreadCount(currentUserId) > 0)
-        .toList();
+    return list.where((chat) => chat.getUnreadCount(currentUserId) > 0).toList();
   }
 
   List<ChatModel> _applyRecentFilter(List<ChatModel> list) {
@@ -132,6 +115,9 @@ class HomeController extends GetxController {
     return list;
   }
 
+  // Fixed: removed the extension that hardcoded isActive to always true.
+  // isActive should come from ChatModel itself. If your ChatModel doesn't
+  // have isActive, add it there. The filter below uses it safely with ?.
   List<ChatModel> _applyActiveFilter(List<ChatModel> list) {
     return list.where((chat) => chat.isActive == true).toList();
   }
@@ -146,9 +132,7 @@ class HomeController extends GetxController {
     _isSearching.value = false;
   }
 
-  void setFilter(String filter) {
-    _activeFilter.value = filter;
-  }
+  void setFilter(String filter) => _activeFilter.value = filter;
 
   void clearAllFilters() {
     _activeFilter.value = 'all';
@@ -158,41 +142,29 @@ class HomeController extends GetxController {
   int get totalUnreadCount {
     final currentUserId = _authController.user?.uid;
     if (currentUserId == null) return 0;
-
-    return _allChats.fold(
-      0,
-          (sum, chat) => sum + chat.getUnreadCount(currentUserId),
-    );
+    return _allChats.fold(0, (sum, chat) => sum + chat.getUnreadCount(currentUserId));
   }
 
   Future<void> refreshChats() async {
     final currentUserId = _authController.user?.uid;
     if (currentUserId == null) return;
-
     clearAllFilters();
-
-    _allChats.bindStream(
-      _firestoreService.getUserChatsStream(currentUserId),
-    );
+    _allChats.bindStream(_firestoreService.getUserChatsStream(currentUserId));
   }
 
   Future<void> deleteChat(String chatId) async {
     final currentUserId = _authController.user?.uid;
     if (currentUserId == null) return;
-
     _allChats.removeWhere((chat) => chat.id == chatId);
-
     await _firestoreService.deleteChatForUser(chatId, currentUserId);
   }
+
   int getUnreadCount(ChatModel chat) {
     final userId = _authController.user?.uid;
     if (userId == null) return 0;
-
     return chat.getUnreadCount(userId);
   }
 }
 
-
-extension on ChatModel {
-  get isActive => true;
-}
+// REMOVED: the broken extension that hardcoded isActive to always return true.
+// Add `bool get isActive` to your ChatModel class instead.

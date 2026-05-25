@@ -10,14 +10,12 @@ class ChangePasswordView extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = Get.put(ChangePasswordController());
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Change Password"),
-      ),
+      appBar: AppBar(title: Text("Change Password")),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: EdgeInsets.all(24),
           child: Form(
-            key: controller.fromKey,
+            key: controller.formKey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -27,7 +25,7 @@ class ChangePasswordView extends StatelessWidget {
                     height: 100,
                     width: 100,
                     decoration: BoxDecoration(
-                      color: AppTheme.primaryColor.withOpacity(0.1),
+                      color: AppTheme.primaryColor.withValues(alpha: 0.1),
                       shape: BoxShape.circle,
                     ),
                     child: Icon(
@@ -56,84 +54,98 @@ class ChangePasswordView extends StatelessWidget {
                 SizedBox(height: 40),
 
                 // Current Password
-                Obx(() => TextFormField(
-                  controller: controller.currentPasswordController,
-                  obscureText: controller.abscureCurrentPassword,
-                  decoration: InputDecoration(
-                    labelText: 'Current Password',
-                    prefixIcon: Icon(Icons.lock_outline),
-                    suffixIcon: IconButton(
-                      onPressed:
-                      controller.toggleCurrentPasswordVisibility,
-                      icon: Icon(
-                        controller.abscureCurrentPassword
-                            ? Icons.visibility_outlined
-                            : Icons.visibility_off_outlined,
+                Obx(
+                  () => TextFormField(
+                    controller: controller.currentPasswordController,
+                    obscureText: controller.obscureCurrentPassword,
+                    decoration: InputDecoration(
+                      labelText: 'Current Password',
+                      prefixIcon: Icon(Icons.lock_outline),
+                      suffixIcon: IconButton(
+                        onPressed: controller.toggleCurrentPasswordVisibility,
+                        icon: Icon(
+                          controller.obscureCurrentPassword
+                              ? Icons.visibility_outlined
+                              : Icons.visibility_off_outlined,
+                        ),
                       ),
+                      hintText: 'Enter your current password',
                     ),
-                    hintText: 'Enter your current password',
+                    validator: controller.validateCurrentPassword,
                   ),
-                  validator: controller.validateCurrentPassword,
-                )),
+                ),
                 SizedBox(height: 20),
 
                 // New Password
-                Obx(() => TextFormField(
-                  controller: controller.newPasswordController,
-                  obscureText: controller.abscureNewPassword,
-                  decoration: InputDecoration(
-                    labelText: 'New Password',
-                    prefixIcon: Icon(Icons.lock_outline),
-                    suffixIcon: IconButton(
-                      onPressed: controller.toggleNewPasswordVisibility,
-                      icon: Icon(
-                        controller.abscureNewPassword
-                            ? Icons.visibility_outlined
-                            : Icons.visibility_off_outlined,
+                Obx(
+                  () => TextFormField(
+                    controller: controller.newPasswordController,
+                    obscureText: controller.obscureNewPassword,
+                    decoration: InputDecoration(
+                      labelText: 'New Password',
+                      prefixIcon: Icon(Icons.lock_outline),
+                      suffixIcon: IconButton(
+                        onPressed: controller.toggleNewPasswordVisibility,
+                        icon: Icon(
+                          controller.obscureNewPassword
+                              ? Icons.visibility_outlined
+                              : Icons.visibility_off_outlined,
+                        ),
                       ),
+                      hintText: 'Enter your new password',
                     ),
-                    hintText: 'Enter your new password',
+                    validator: controller.validateNewPassword,
                   ),
-                  validator: controller.validateNewPassword,
-                )),
+                ),
                 SizedBox(height: 20),
 
                 // ✅ Confirm Password (FIXED ONLY HERE)
-                Obx(() => TextFormField(
-                  controller: controller.confirmPasswordController,
-                  obscureText: controller.abscureConfirmPassword,
-                  decoration: InputDecoration(
-                    labelText: 'Confirm Password',
-                    prefixIcon: Icon(Icons.lock_outline),
-                    suffixIcon: IconButton(
-                      onPressed:
-                      controller.toggleConfirmPasswordVisibility,
-                      icon: Icon(
-                        controller.abscureConfirmPassword
-                            ? Icons.visibility_outlined
-                            : Icons.visibility_off_outlined,
+                Obx(
+                  () => TextFormField(
+                    controller: controller.confirmPasswordController,
+                    obscureText: controller.obscureConfirmPassword,
+                    decoration: InputDecoration(
+                      labelText: 'Confirm Password',
+                      prefixIcon: Icon(Icons.lock_outline),
+                      suffixIcon: IconButton(
+                        onPressed: controller.toggleConfirmPasswordVisibility,
+                        icon: Icon(
+                          controller.obscureConfirmPassword
+                              ? Icons.visibility_outlined
+                              : Icons.visibility_off_outlined,
+                        ),
                       ),
+                      hintText: 'Re-enter your new password',
                     ),
-                    hintText: 'Re-enter your new password',
+                    validator: controller.validateConfirmPassword,
                   ),
-                  validator: controller.validateConfirmPassword,
-                )),
+                ),
 
                 SizedBox(height: 40),
-                Obx(()=> SizedBox(
+                Obx(
+                  () => SizedBox(
                     width: double.infinity,
-                    child: ElevatedButton.icon
-                      (onPressed: controller.isLoading ? null : controller.changePassword,
-                        icon: controller.isLoading?SizedBox
-                          (height: 20,width: 20,
-                          child: CircularProgressIndicator(
-                               strokeWidth: 2,
-                            color: Colors.white,
-                          ),
-
-                        ): Icon(Icons.security),
-                        label: Text(controller.isLoading ? 'Updating....' : 'update Password')),
-                ),
+                    child: ElevatedButton.icon(
+                      onPressed: controller.isLoading
+                          ? null
+                          : controller.changePassword,
+                      icon: controller.isLoading
+                          ? SizedBox(
+                              height: 20,
+                              width: 20,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                                color: Colors.white,
+                              ),
+                            )
+                          : Icon(Icons.security),
+                      label: Text(
+                        controller.isLoading
+                            ? 'Updating....'
+                            : 'update Password',
+                      ),
+                    ),
+                  ),
                 ),
               ],
             ),
