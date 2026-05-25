@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:myapp/controllers/friends_controller.dart';
 import 'package:myapp/models/user_model.dart';
 import 'package:myapp/routes/app_routes.dart';
-import '../theme/app_theme.dart';
 
 class FriendsView extends GetView<FriendsController> {
   const FriendsView({super.key});

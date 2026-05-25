@@ -184,20 +184,19 @@ class _RegisterViewState extends State<RegisterView> {
                         style: Theme.of(context).textTheme.bodySmall,
                       ),
                     ),
-                    Expanded(child: Divider(color: AppTheme.borderColor)),
                   ],
                 ),
-                SizedBox(height: 32),
+                SizedBox(height: 24),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text("Already have any account",
+                    Text("Already have an account?",
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
                     SizedBox(width: 8),
                     GestureDetector(onTap: () => Get.toNamed(AppRoutes.login),
                       child: Text(
-                          'sign In',
+                          'Sign In',
                           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                             color: AppTheme.primaryColor,
                             fontWeight: FontWeight.w600,
@@ -205,7 +204,18 @@ class _RegisterViewState extends State<RegisterView> {
                       ),
                     ),
                   ],
-                )
+                ),
+                SizedBox(height: 24),
+                SizedBox(
+                  width: double.infinity,
+                  child: OutlinedButton.icon(
+                    onPressed: _authController.isLoading ? null : () {
+                      _authController.signInWithGoogle();
+                    },
+                    icon: Icon(Icons.g_mobiledata, size: 28),
+                    label: Text("Sign in with Google"),
+                  ),
+                ),
 
 
 

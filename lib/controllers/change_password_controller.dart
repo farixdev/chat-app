@@ -1,12 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:myapp/controllers/auth_controller.dart';
 
-import 'auth_controller.dart';
+
 
 class ChangePasswordController extends GetxController {
-  final AuthController _authController = Get.find<AuthController>();
 
   final TextEditingController currentPasswordController = TextEditingController();
   final TextEditingController newPasswordController = TextEditingController();

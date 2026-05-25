@@ -32,46 +32,51 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyBH_MAZRCfFYtdfRlngizBjRPBMpNAKbFo',
-    appId: '1:526881957709:web:d239d17009479460783904',
-    messagingSenderId: '526881957709',
-    projectId: 'myapp-final-82a1c',
-    authDomain: 'myapp-final-82a1c.firebaseapp.com',
-    storageBucket: 'myapp-final-82a1c.firebasestorage.app',
+    apiKey: 'AIzaSyB1xX4_OsD8sDCBFn5Dc0reMC2L3uHhqC0',
+    appId: '1:1060091689567:web:9dd115b3dcffd9f21939ea',
+    messagingSenderId: '1060091689567',
+    projectId: 'chat-app-d9fc3',
+    authDomain: 'chat-app-d9fc3.firebaseapp.com',
+    storageBucket: 'chat-app-d9fc3.firebasestorage.app',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBZW0MrUr7wjKiM5sCwv75sjdw5xOoRznM',
-    appId: '1:526881957709:android:57113d48039fc14d783904',
-    messagingSenderId: '526881957709',
-    projectId: 'myapp-final-82a1c',
-    storageBucket: 'myapp-final-82a1c.firebasestorage.app',
+    apiKey: 'AIzaSyC5c6114nd1oM5zGkL4HlQCD-exd8-sy0M',
+    appId: '1:1060091689567:android:f122734776d794701939ea',
+    messagingSenderId: '1060091689567',
+    projectId: 'chat-app-d9fc3',
+    storageBucket: 'chat-app-d9fc3.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyBgC-oFLC4yt5dZqv7-nhf9QHuK37pW2JY',
-    appId: '1:526881957709:ios:17d6d41a04819a47783904',
-    messagingSenderId: '526881957709',
-    projectId: 'myapp-final-82a1c',
-    storageBucket: 'myapp-final-82a1c.firebasestorage.app',
+    apiKey: 'AIzaSyD0DEltBkvXYYV-weVM1X5sRhyIapzpi2o',
+    appId: '1:1060091689567:ios:07d0ed0297b965c61939ea',
+    messagingSenderId: '1060091689567',
+    projectId: 'chat-app-d9fc3',
+    storageBucket: 'chat-app-d9fc3.firebasestorage.app',
+    androidClientId: '1060091689567-vu0ft9r62g7dis06eijerna56fg26r26.apps.googleusercontent.com',
+    iosClientId: '1060091689567-dsl5uq1m2r9o84id0vpt64qmv5n8erpg.apps.googleusercontent.com',
     iosBundleId: 'com.example.myapp',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyBgC-oFLC4yt5dZqv7-nhf9QHuK37pW2JY',
-    appId: '1:526881957709:ios:17d6d41a04819a47783904',
-    messagingSenderId: '526881957709',
-    projectId: 'myapp-final-82a1c',
-    storageBucket: 'myapp-final-82a1c.firebasestorage.app',
+    apiKey: 'AIzaSyD0DEltBkvXYYV-weVM1X5sRhyIapzpi2o',
+    appId: '1:1060091689567:ios:07d0ed0297b965c61939ea',
+    messagingSenderId: '1060091689567',
+    projectId: 'chat-app-d9fc3',
+    storageBucket: 'chat-app-d9fc3.firebasestorage.app',
+    androidClientId: '1060091689567-vu0ft9r62g7dis06eijerna56fg26r26.apps.googleusercontent.com',
+    iosClientId: '1060091689567-dsl5uq1m2r9o84id0vpt64qmv5n8erpg.apps.googleusercontent.com',
     iosBundleId: 'com.example.myapp',
   );
 
   static const FirebaseOptions windows = FirebaseOptions(
-    apiKey: 'AIzaSyBH_MAZRCfFYtdfRlngizBjRPBMpNAKbFo',
-    appId: '1:526881957709:web:675ae8611c99be39783904',
-    messagingSenderId: '526881957709',
-    projectId: 'myapp-final-82a1c',
-    authDomain: 'myapp-final-82a1c.firebaseapp.com',
-    storageBucket: 'myapp-final-82a1c.firebasestorage.app',
+    apiKey: 'AIzaSyB1xX4_OsD8sDCBFn5Dc0reMC2L3uHhqC0',
+    appId: '1:1060091689567:web:d8ec7cb1f29782e61939ea',
+    messagingSenderId: '1060091689567',
+    projectId: 'chat-app-d9fc3',
+    authDomain: 'chat-app-d9fc3.firebaseapp.com',
+    storageBucket: 'chat-app-d9fc3.firebasestorage.app',
   );
+
 }

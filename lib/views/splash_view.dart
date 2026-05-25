@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:myapp/routes/app_routes.dart';
+
 import 'package:myapp/theme/app_theme.dart';
 
 import '../controllers/auth_controller.dart';
@@ -38,15 +38,12 @@ class _SplashViewState extends State<SplashView>
   }
 
   void _checkAuthAndNavigate() async {
+    // Wait for the animation to play a bit before checking auth
     await Future.delayed(const Duration(seconds: 2));
-    final authController = Get.put(AuthController(), permanent: true);
-    await Future.delayed(const Duration(milliseconds: 500));
-    if (authController.isauthenticated) {
-      Get.offAllNamed(AppRoutes.main);
-    // Get.offAllNamed(AppRoutes.profile);
-    } else {
-      Get.offAllNamed(AppRoutes.login);
-    }
+    
+    // Initializing the AuthController will trigger the `ever` listener
+    // in its `onInit`, which handles the routing to Login or Main automatically.
+    Get.put(AuthController(), permanent: true);
   }
 
   @override

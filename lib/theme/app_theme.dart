@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AppTheme {
-  static Color primaryColor = Color(0xFF6C5CE7);
-  static Color secondaryColor = Color(0xFF74B9FF);
-  static Color accentColor = Color(0xFFFD79A8);
-  static Color backgroundColor = Color(0xFFF8F9FA);
+  static Color primaryColor = Color(0xFF4F46E5); // Indigo
+  static Color secondaryColor = Color(0xFF10B981); // Emerald
+  static Color accentColor = Color(0xFFF43F5E); // Rose
+  static Color backgroundColor = Color(0xFFF3F4F6); // Gray-100
   static Color cardColor = Color(0xFFFFFFFF);
-  static Color textPrimaryColor = Color(0xFF2D3436);
-  static Color textSecondaryColor = Color(0xFF636E72);
-  static Color borderColor = Color(0xFFDDD6FE);
-  static Color errorColor = Color(0xFFE17055);
-  static Color successColor = Color(0xFF00B894);
+  static Color textPrimaryColor = Color(0xFF111827); // Gray-900
+  static Color textSecondaryColor = Color(0xFF4B5563); // Gray-600
+  static Color borderColor = Color(0xFFE5E7EB); // Gray-200
+  static Color errorColor = Color(0xFFEF4444); // Red-500
+  static Color successColor = Color(0xFF10B981); // Emerald-500
 
   static ThemeData lightTheme = ThemeData(
     useMaterial3: true,
@@ -117,7 +117,10 @@ class AppTheme {
     floatingActionButtonTheme: FloatingActionButtonThemeData(
       backgroundColor: primaryColor,
       foregroundColor: Colors.white,
-      elevation: 0,
+      elevation: 4,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+      ),
     ),
   );
 }

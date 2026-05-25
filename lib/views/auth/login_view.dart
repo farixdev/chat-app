@@ -1,4 +1,4 @@
-import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:myapp/controllers/auth_controller.dart';
@@ -175,7 +175,17 @@ class _LoginViewState extends State<LoginView> {
                      ),
                    ],
                 ),
-
+                SizedBox(height: 24),
+                SizedBox(
+                  width: double.infinity,
+                  child: OutlinedButton.icon(
+                    onPressed: _authController.isLoading ? null : () {
+                      _authController.signInWithGoogle();
+                    },
+                    icon: Icon(Icons.g_mobiledata, size: 28),
+                    label: Text("Sign in with Google"),
+                  ),
+                ),
               ],
             ),
           ),

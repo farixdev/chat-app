@@ -4,8 +4,11 @@ import 'package:myapp/routes/app_routes.dart';
 import 'package:myapp/services/auth_service.dart';
 import 'package:myapp/models/user_model.dart';
 
+import 'package:myapp/services/firestore_service.dart';
+
 class AuthController extends GetxController {
   final AuthService _authService = AuthService();
+  final FirestoreService _firestoreService = FirestoreService();
 
   final Rx<User?> _user = Rx<User?>(null);
   final Rx<UserModel?> _userModel = Rx<UserModel?>(null);
@@ -24,37 +27,39 @@ class AuthController extends GetxController {
   void onInit() {
     super.onInit();
     _user.bindStream(_authService.authStateChanges);
-    //ever(_user, _handleAuthStateChanges);
+    ever(_user, _handleAuthStateChanges);
   }
 
-  // void _handleAuthStateChanges(User? user) {
-  //    if (user == null) {
-  //      if (Get.currentRoute != AppRoutes.login) {
-  //        Get.offAllNamed(AppRoutes.login);
-  //      }
-  //    } else {
-  //      if (Get.currentRoute != AppRoutes.profile) {
-  //        Get.offAllNamed(AppRoutes.profile);
-  //      }
-  //    }
-  // //
-  //   if (!_isInitialized.value) {
-  //     _isInitialized.value = true;
-  //   }
-  // }
-  // void checkInitialAuthState(){
-  //                final currentUser=FirebaseAuth.instance.currentUser;
-  //                if(currentUser!=null){
-  //                  _user.value=currentUser;
-  //                  Get.offAllNamed(AppRoutes.main);
-  //                }else{
-  //                  Get.offAllNamed(AppRoutes.login);
-  //                }
-  //                _isInitialized.value=true;
-  //
-  //
-  // }
-  Future<void> signInWithEmailAndPassword(String email, String password) async{
+  void _handleAuthStateChanges(User? user) async {
+    if (user == null) {
+      _userModel.value = null;
+      Get.offAllNamed(AppRoutes.login);
+    } else {
+      // If we are currently processing a login/register request, let that method handle the routing.
+      if (_isLoading.value) return;
+
+      // Fetch user model from Firestore
+      try {
+        UserModel? model = await _firestoreService.getUser(user.uid);
+        if (model != null) {
+          _userModel.value = model;
+          Get.offAllNamed(AppRoutes.main);
+        } else {
+          // Orphaned auth account, sign out
+          await _authService.signout();
+        }
+      } catch (e) {
+        print("Error fetching user model: $e");
+        Get.offAllNamed(AppRoutes.login);
+      }
+    }
+    
+    if (!_isInitialized.value) {
+      _isInitialized.value = true;
+    }
+  }
+
+  Future<void> signInWithEmailAndPassword(String email, String password) async {
       try{
         _isLoading.value=true;
         _error.value='';
@@ -73,7 +78,24 @@ class AuthController extends GetxController {
       finally{
              _isLoading.value=false;
       }
+  }
 
+  Future<void> signInWithGoogle() async {
+    try {
+      _isLoading.value = true;
+      _error.value = '';
+      UserModel? userModel = await _authService.signInWithGoogle();
+      if (userModel != null) {
+        _userModel.value = userModel;
+        Get.offAllNamed(AppRoutes.main);
+      }
+    } catch (e) {
+      _error.value = e.toString();
+      Get.snackbar("Error", "Failed to sign in with Google");
+      print(e);
+    } finally {
+      _isLoading.value = false;
+    }
   }
 
   Future<void> registerWithEmailAndPassword(String email, String password,String displayName) async{

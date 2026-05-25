@@ -1,8 +1,7 @@
-import 'dart:math';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:myapp/models/user_model.dart';
 import 'package:myapp/services/firestore_service.dart';
+
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -13,9 +12,9 @@ class AuthService {
   Stream<User?> get authStateChanges => _auth.authStateChanges();
 
   Future<UserModel?> signInWithEmailAndPassword(
-      String email,
-      String password,
-      ) async {
+    String email,
+    String password,
+  ) async {
     try {
       UserCredential result = await _auth.signInWithEmailAndPassword(
         email: email,
@@ -36,10 +35,10 @@ class AuthService {
   }
 
   Future<UserModel?> registerWithEmailAndPassword(
-      String email,
-      String password,
-      String displayName,
-      ) async {
+    String email,
+    String password,
+    String displayName,
+  ) async {
     try {
       UserCredential result = await _auth.createUserWithEmailAndPassword(
         email: email,
@@ -70,6 +69,14 @@ class AuthService {
     }
   }
 
+  Future<UserModel?> signInWithGoogle() async {
+    // google_sign_in version in this project exposes a different API than this app code expects.
+    // Temporarily disable Google sign-in to keep the project compiling.
+    throw UnimplementedError(
+      'Google sign-in is not implemented (google_sign_in API mismatch).',
+    );
+  }
+
   Future<void> sendPasswordResetEmail(String email) async {
     try {
       await _auth.sendPasswordResetEmail(email: email);
@@ -81,22 +88,23 @@ class AuthService {
   Future<void> signout() async {
     try {
       if (currentUserId != null) {
-        await _firestoreService.updateUserOnlineStatus(
-          currentUserId!,
-          false,
-        );
+        await _firestoreService.updateUserOnlineStatus(currentUserId!, false);
       }
+      // Google sign-out is not implemented due to google_sign_in API mismatch in this project.
       await _auth.signOut();
     } catch (e) {
       throw Exception("failed to signout: ${e.toString()}");
     }
   }
+
   Future<void> deleteAccount() async {
     try {
-       User? user =_auth.currentUser;
+      User? user = _auth.currentUser;
       if (user != null) {
         await _firestoreService.deleteUser(user.uid);
         await user.delete();
+        // Google disconnect is disabled due to google_sign_in API mismatch in this project.
+        // await GoogleSignIn().disconnect();
       }
     } catch (e) {
       throw Exception("failed to delete: ${e.toString()}");
